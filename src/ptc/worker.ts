@@ -19,6 +19,7 @@ import { sessionTempDir } from '../session-temp.js'
 import { denied, authorityChanged, executionRestriction, normalizeNativeDenial, credentialDenied } from '../permissions.js'
 import { inside, canonicalAnchor } from '../authority-paths.js'
 import { prepareWorkspace } from '../workspace-preparation.js'
+import { invokePtc } from '../file/ptc-inproc.js'
 export { resolveWorker } from './runtime.js'
 export function failure(code: string, message: string, effectState: EffectState = 'none') {
   return { status: 'error', error: { code, phase: effectState === 'none' ? 'preflight' : 'execute', retryable: false, effectState,
@@ -55,6 +56,8 @@ export async function invoke(ctx: Context, file: string, tool: string, args: unk
 async function invokeTrusted(ctx: Context, file: string, tool: string, args: unknown, exec: ToolRunContext, signal: AbortSignal, config?: WorkerInvokeConfig): Promise<unknown> {
   const session = exec?.agent?.session
   if (!session?.id) return failure('EXECUTOR_UNAVAILABLE', 'An authoritative session identity is required.')
+  // ops_ptc_* are answered in-process by the built-in AST engine: no subprocess, no confinement step.
+  if (tool.startsWith('ptc_')) return invokePtc(tool, ctx, args, exec, signal)
   const policyService: SandboxPolicyService | undefined = ctx.get('sandboxPolicy')
   const subprocess: SubprocessRuntime | undefined = ctx.get('subprocess')
   if (!policyService?.resolve || !subprocess?.spawn) return failure('EXECUTOR_UNAVAILABLE', 'DSH policy and subprocess services are required.')

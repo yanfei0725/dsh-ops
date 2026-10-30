@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { runInprocCli } from './inproc';
+import { runInprocCli } from './inproc.js';
 
 const HELP = `ops-ptc — 进程内 AST 重构引擎（零外部二进制）
 

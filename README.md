@@ -27,7 +27,7 @@
 - 启用 DSH 预留的 `tools_addition` 动态工具加载，并提供渐进式纰漏的工具，作为高级功能（如pdf、word读取、超多文件批量修改）的加载平台，大大减少常见特定场景的token消耗量，且不会导致系统提示词膨胀
 - 为 Native 模式提供返回紧凑、带行号和更好错误回馈的工具以遏制报错循环，减少调用轮次
 - 为 PTC 模式提供一些返回结构化 JSON 值的工具以降低 ai 在 ptc 模式下编写 TypeScript 代码的token总量和心智负担
-- PTC SDK 目录包含 18 个 API：15 个文件/文档工具，加批处理、结果引用和加载器。
+- PTC SDK 目录包含 23 个 API：15 个文件/文档工具，加批处理、结果引用、五个进程内 AST 工具和加载器。
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/8238e4cd-61aa-4740-83bf-3aa6dd61291b" height="300" alt="dsh token 效率">
@@ -108,7 +108,7 @@ npx --yes dsh-ops@latest uninstall --profile desktop
 - [第三方预设集成接口](docs/集成接口.md) · [外部 Native 提供者](docs/外部工具提供者.md) · [作用域诊断](docs/集成诊断.md)
 
 - [使用指南](docs/使用指南.md) · [常见问题](docs/常见问题.md) · [组件参考](docs/组件参考.md) · [配置参考](docs/配置参考.md)
-- [PTC 设计与使用](docs/native-ptc.md) · [手动验证](docs/手动验收.md)
+- [PTC 设计与使用](docs/native-ptc.md) · [内置 PTC AST 引擎](docs/ptc-engine.md) · [手动验证](docs/手动验收.md)
 - [贡献指南](docs/贡献指南.md) · [路线图](docs/路线图.md) · [变更日志](docs/CHANGELOG.md) · [溯源记录](docs/PROVENANCE.md)
 
 ## 许可证

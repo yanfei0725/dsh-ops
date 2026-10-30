@@ -1,5 +1,5 @@
 import * as path from 'node:path';
-import type { PtcToolAddition } from './tools';
+import type { PtcToolAddition } from './tools.js';
 
 export interface HostExec {
     agent?: {

@@ -37,7 +37,7 @@ Supported: Windows x64, Linux x64, and macOS 13+ on Apple Silicon or Intel
   OPS file tools, PTC publishes its typed SDK, and Minimal replaces only the Windows shell;
   its sessions receive the `ops_discover_tools` entry whenever the discovery row is enabled. A mode row replaces the official
   Windows shell with `ops_bash`. Advanced tools activate in the owning agent's next provider request.
-- The PTC SDK catalogue has 18 APIs: 15 file/document tools, batch, result references and its loader.
+- The PTC SDK catalogue has 23 APIs: 15 file/document tools, batch, result references, five in-process AST tools and its loader.
   Only the configured resident or selected APIs are exposed. Native and PTC use separate outputs.
 - Discover bounded CSV/TSV, DOCX main-body paragraphs and a restricted PDF text layer. Binary DOC,
   OCR, general PDF rendering, web search and HTML crawling are not implemented. Read the
@@ -129,7 +129,7 @@ Enable the `dsh-ops/tui` row in dsh-TUI and restart to add the OPS sidebar witho
 - [Third-party preset integration API](docs/integration-api.md) · [External Native providers](docs/external-provider.md) · [Scoped diagnostics](docs/diagnostics.md)
 
 - [Usage](docs/usage.md) · [Troubleshooting](docs/troubleshooting.md) · [Component reference](docs/component-reference.md) · [Configuration reference](docs/configuration-reference.md)
-- [Native PTC](docs/native-ptc.md) · [Manual validation](docs/manual-validation.md)
+- [Native PTC](docs/native-ptc.md) · [Built-in PTC AST engine](docs/ptc-engine.md) · [Manual validation](docs/manual-validation.md)
 - [Contributing](docs/CONTRIBUTING.md) · [Roadmap](docs/roadmap.md) · [Changelog](docs/CHANGELOG.md) · [Provenance](docs/PROVENANCE.md)
 
 ## License

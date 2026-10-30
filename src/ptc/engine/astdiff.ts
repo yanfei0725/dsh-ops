@@ -207,8 +207,8 @@ type SourceFileWithDiagnostics = { parseDiagnostics: ReadonlyArray<TsDiagnostic>
 
 let tsMod: TsModule | null | undefined;
 
-/** 本模块编成 CJS，`createRequire` 是唯一能在 import 之外做同步可选依赖探测的入口 */
-const requireFromHere = createRequire(__filename);
+/** 本模块在宿主里编成 ESM，`createRequire` 是唯一能在 import 之外做同步可选依赖探测的入口 */
+const requireFromHere = createRequire(import.meta.url);
 
 /**
  * `typescript` 是可选依赖：装了就拿它的 parseDiagnostics 当语法 oracle，没装就退回

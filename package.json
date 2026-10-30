@@ -213,6 +213,7 @@
     }
   },
   "optionalDependencies": {
+    "@ast-grep/napi": "0.51.0",
     "@dsh-ops/bash-win32-x64": "0.2.1"
   },
   "devDependencies": {

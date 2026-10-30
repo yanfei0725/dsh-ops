@@ -6,18 +6,18 @@
  * 寻址层（walk / es.exe / 30s 缓存）在 `enumerate.ts`，错误类型在 `inproc-error.ts`，
  * 本文件保留定位、改写与 CLI 入口，公开面与原包一致。
  */
-import { napi } from './engine-load';
+import { napi } from './engine-load.js';
 import { readFileSync, statSync } from 'node:fs';
 import { basename, extname, resolve } from 'node:path';
-import { enumerate } from './enumerate';
-import { InprocError } from './inproc-error';
-import { auditAst, parseAuditRoot, sgCrossCheck } from './astdiff';
-import type { AstAudit, SgCrossCheck } from './astdiff';
-import { checkedWrite, verifySnapshot } from './safe-write';
-import { reparseEscape } from './reparse';
+import { enumerate } from './enumerate.js';
+import { InprocError } from './inproc-error.js';
+import { auditAst, parseAuditRoot, sgCrossCheck } from './astdiff.js';
+import type { AstAudit, SgCrossCheck } from './astdiff.js';
+import { checkedWrite, verifySnapshot } from './safe-write.js';
+import { reparseEscape } from './reparse.js';
 import type { Lang, Rule, SgNode } from '@ast-grep/napi';
-export { clearEnumCache, enumerate, walkBounded } from './enumerate';
-export type { EnumerateResult } from './enumerate';
+export { clearEnumCache, enumerate, walkBounded } from './enumerate.js';
+export type { EnumerateResult } from './enumerate.js';
 export type LocateStrategy = 'auto' | 'walk' | 'everything';
 export interface InprocRequest {
     /** AST 匹配 pattern，如 `return $A` */

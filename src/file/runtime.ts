@@ -1,10 +1,11 @@
 import type { Context } from '../adapter/dsh/types.js'
 import type { ToolDefinition } from '../adapter/dsh/types.js'
-import type { FileToolName } from '../capabilities/registry.js'
+import type { FileToolName, PtcToolName } from '../capabilities/registry.js'
 import { WORKER_TIMEOUT_MS } from '../worker-protocol.js'
 import { publicToolName } from '../policy.js'
 import { definition } from './contract.js'
-import { NATIVE_FILE_TOOLS } from '../capabilities/registry.js'
+import { NATIVE_FILE_TOOLS, capability } from '../capabilities/registry.js'
+import { definition as ptcDefinition } from '../ptc/contract.js'
 import { resultDefinition, invokeResult } from './result.js'
 import { registerNativeProvider } from './result-provider.js'
 import { safeDisposeAll } from '../teardown.js'
@@ -49,12 +50,17 @@ export class NativeFileTools {
     return names.map(publicToolName)
   }
 
-  definition(rawName: NativeToolName): ToolDefinition {
+  definition(rawName: NativeToolName | PtcToolName): ToolDefinition {
     const execute: ToolDefinition['execute'] = (args, exec) => this.call(rawName, args, exec)
-    return this.readDedup.wrap(rawName === 'result' ? resultDefinition(execute) : definition(rawName, execute))
+    // A discovered PTC-component tool keeps the PTC contract: its parameters and description live
+    // in capabilities/ptc.ts, not in the native file catalogue, so the native factory cannot build it.
+    const tool = rawName === 'result' ? resultDefinition(execute)
+      : capability(rawName)?.component === 'ptc' ? ptcDefinition(rawName as PtcToolName, execute)
+        : definition(rawName as FileToolName, execute)
+    return this.readDedup.wrap(tool)
   }
 
-  async call(tool: NativeToolName, args: unknown, exec: Execution): Promise<unknown> {
+  async call(tool: NativeToolName | PtcToolName, args: unknown, exec: Execution): Promise<unknown> {
     if (this.stopped) return failure('POLICY_DENIED', 'Native file component is disposed.')
     if (!this.file) return failure('EXECUTOR_UNAVAILABLE', 'Native file worker path is unavailable.')
     const controller = new AbortController()

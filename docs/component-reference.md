@@ -33,7 +33,7 @@ The former `dsh-ops/background` component (FastCtx background jobs: `ops_run`, `
 
 ## Tool summary
 
-The shared catalogue has 20 entries. The generated PTC SDK contains 18 APIs: 15 file/document tools plus batch, result and load_sdk; bash and discover_tools belong to other entry points. Catalogue membership does not mean residency or permission. Fresh PTC pools follow the implemented catalogue; saved explicit pools remain authoritative. Document tools load on demand.
+The shared catalogue has 25 entries. The generated PTC SDK contains 23 APIs: 15 file/document tools plus batch, result, the five in-process AST tools and load_sdk; bash and discover_tools belong to other entry points. Catalogue membership does not mean residency or permission. Fresh PTC pools follow the implemented catalogue; saved explicit pools remain authoritative. Document tools load on demand.
 
 | Tool | Purpose | Full-access requirement |
 | --- | --- | --- |
@@ -49,6 +49,8 @@ The shared catalogue has 20 entries. The generated PTC SDK contains 18 APIs: 15 
 | `ops_bash` | Preferred general bash command executor; `command` for short commands, `script_path` for long scripts | Confined in restricted modes; matched Windows x64 private IPC runtime |
 | `ops_batch` | Preflight and execute copy / move / remove with audit and recovery | See the PTC notes |
 | `ops_result` | Bounded result references: put, page, release | See the PTC notes |
+| `ops_ptc_locate` / `ops_ptc_inproc` | Resident in-process AST location and rewrite | Writes follow current authority¹ |
+| `ops_ptc_find` / `ops_ptc_refactor` / `ops_ptc_audit` | Discoverable AST address lookup, five-stage refactor and syntax audit | See the PTC notes |
 | `ops_load_sdk` | Load 1-5 named PTC APIs for the next model step; no file operation runs | PTC-only |
 | Host `pwsh` | Windows-native operations using the host-selected PowerShell | Host policy |
 
@@ -288,3 +290,4 @@ migration; see [configuration](configuration-reference.md).
 - [Usage](usage.md) — install, update, remove, CLI
 - [Troubleshooting](troubleshooting.md) — errors and diagnosis
 - [Native PTC](native-ptc.md) — the PTC design and build
+- [Built-in PTC AST engine](ptc-engine.md) — engine location, the five tools, fences and receipt gate

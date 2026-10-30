@@ -13,13 +13,15 @@
  */
 import { createRequire } from 'node:module';
 import * as path from 'node:path';
+import { PACKAGE_ROOT } from './anchors.js';
 
 /** `@ast-grep/napi` 的模块形状；只在类型层引用，运行期解不出这个包也不影响加载 */
 export type NapiModule = typeof import('@ast-grep/napi');
 
-const ANCHORS = [
-    path.join(__dirname, '..', '..', 'package.json'),
-    path.join(__dirname, '..', '..', 'vendor', 'deps', 'package.json'),
+/** 内置后包根就是宿主仓库根：先 nested `node_modules`，再随包分发的 `vendor/deps`。 */
+const ENGINE_ANCHORS = [
+    path.join(PACKAGE_ROOT, 'package.json'),
+    path.join(PACKAGE_ROOT, 'vendor', 'deps', 'package.json'),
 ];
 
 let loaded: NapiModule | undefined;
@@ -27,7 +29,7 @@ export function load(): NapiModule {
     if (loaded !== undefined)
         return loaded;
     let last: unknown;
-    for (const anchor of ANCHORS) {
+    for (const anchor of ENGINE_ANCHORS) {
         try {
             loaded = createRequire(anchor)('@ast-grep/napi') as NapiModule;
             return loaded;

@@ -17,6 +17,7 @@ import { inside, canonicalAnchor, anchoredPath, sessionAnchors } from '../author
 import { resolveWorker } from '../ptc/runtime.js'
 import { FILE_MUTATIONS } from '../policy.js'
 import { normalizeArguments } from './contract.js'
+import { invokePtc } from './ptc-inproc.js'
 import { resolveReadFiles } from './read-files.js'
 import { withCallBudget, CallBudgetError } from '../kernel/call-budget.js'
 import { withResultSession } from '../kernel/result-lifecycle.js'
@@ -102,6 +103,8 @@ export async function invoke(ctx: Context, file: string, tool: string, args: unk
 async function invokeTrusted(ctx: Context, file: string, tool: string, args: unknown, exec: ToolRunContext, signal: AbortSignal, cwd: string, config?: WorkerInvokeConfig): Promise<unknown> {
   const session = exec?.agent?.session
   if (!session?.id || typeof cwd !== 'string' || !path.isAbsolute(cwd)) return failure('EXECUTOR_UNAVAILABLE', 'An authoritative session identity and cwd are required.')
+  // ops_ptc_* are answered in-process by the AST engine; the native worker is never spawned for them.
+  if (tool.startsWith('ptc_')) return invokePtc(tool, ctx, args, exec, signal)
   const policyService: SandboxPolicyService | undefined = ctx.get('sandboxPolicy')
   const subprocess: SubprocessRuntime | undefined = ctx.get('subprocess')
   if (!policyService?.resolve || !subprocess?.spawn) return failure('EXECUTOR_UNAVAILABLE', 'DSH policy and subprocess services are required.')

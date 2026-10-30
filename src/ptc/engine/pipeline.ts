@@ -2,11 +2,11 @@ import { readFile, rm } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import * as path from 'node:path';
 import type { Lang } from '@ast-grep/napi';
-import { napi } from './engine-load';
-import { auditSyntax } from './astdiff';
-import { verifySnapshot } from './safe-write';
-import { PtcOutcomeError, dbg, defaultConfig, detectEol, esCandidates, pickBin } from './proc';
-import type { PtcConfig, Stage } from './proc';
+import { napi } from './engine-load.js';
+import { auditSyntax } from './astdiff.js';
+import { verifySnapshot } from './safe-write.js';
+import { PtcOutcomeError, dbg, defaultConfig, detectEol, esCandidates, pickBin } from './proc.js';
+import type { PtcConfig, Stage } from './proc.js';
 import {
     agentBoxApply,
     agentBoxRestore,
@@ -18,9 +18,9 @@ import {
     langOf,
     queryRewrite,
     saneLocate,
-} from './stages';
-import type { SymbolSlice } from './stages';
-import { inprocLocate } from './inproc';
+} from './stages.js';
+import type { SymbolSlice } from './stages.js';
+import { inprocLocate } from './inproc.js';
 
 export interface RefactorRequest {
     /** es.exe 搜索条件 */

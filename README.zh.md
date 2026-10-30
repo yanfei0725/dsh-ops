@@ -29,7 +29,7 @@ OPS 为 DSH 增加有界文件与文档工具。Native 模式返回紧凑、带�
 > 本分支是 **0.5.0 未发布候选**：组件 roster 改为预设模式行。下方 `@latest` 命令安装已发布版本；评估候选版本需自行构建本检出目录并打包，变更见[变更日志](docs/CHANGELOG.md)。
 
 - 默认 profile 启用四个预设模式行：Standard/Cordis 发布常驻 OPS 文件工具，PTC 发布类型化 SDK，Minimal 只替换 Windows shell；discovery 行启用时其会话获得 `ops_discover_tools` 动态加载入口；`ops_bash` 由模式行在 Windows 上替换官方 pwsh。高级工具在所属 agent 的下一次供应商请求中激活。
-- PTC SDK 目录包含 18 个 API：15 个文件/文档工具，加批处理、结果引用和加载器。仅暴露配置为常驻或已选择的 API；Native 与 PTC 分别提供自己的输出形式。
+- PTC SDK 目录包含 23 个 API：15 个文件/文档工具，加批处理、结果引用、五个进程内 AST 工具和加载器。仅暴露配置为常驻或已选择的 API；Native 与 PTC 分别提供自己的输出形式。
 - 可按需发现有界 CSV/TSV、DOCX 主体段落与受限 PDF 文本层读取。尚不支持二进制 DOC、OCR、通用 PDF 渲染、网页搜索或 HTML 抓取；使用前请查看[文档格式限制](docs/原生内核.md)。
 - 八个组件独立启停：四个模式行与 discovery 默认开，兼容模式、panel 与 TUI 默认关。启用模式行会自动隐藏被替换的官方工具（read/glob/grep + Windows pwsh），兼容模式开启则保留官方工具。[设置](docs/配置参考.md)提供严格校验的内置表单；可选浏览器页面需显式执行离线承载行迁移。旧 `shell`/`file`/`ptc`/`hide-official` 覆盖需删除。
 - 模式行在三个平台默认开启：Windows 使用主包声明的固定 bash 载荷——`optionalDependencies` 中的 `@dsh-ops/bash-win32-x64@0.2.1`，npm 安装时自动拉取 ops 自带的独立 **bash 5.3.15**（PortableGit `v2.56.0.windows.2`），也可用 `bashPath` 把 `ops_bash` 指向 git bash；Linux/macOS 使用发行版自带 bash，可用 `config.bashPath` 覆盖。`dsh-ops bash-runtime install` 保留为安装/修复与选择受管理副本的路径。PowerShell 仍由宿主管理；升级命令先预览标准安装，仅加 `--yes` 才执行。
@@ -106,7 +106,7 @@ npx --yes dsh-ops@latest uninstall --profile desktop
 - [第三方预设集成接口](docs/集成接口.md) · [外部 Native 提供者](docs/外部工具提供者.md) · [作用域诊断](docs/集成诊断.md)
 
 - [使用指南](docs/使用指南.md) · [常见问题](docs/常见问题.md) · [组件参考](docs/组件参考.md) · [配置参考](docs/配置参考.md)
-- [PTC 设计与使用](docs/native-ptc.md) · [手动验证](docs/手动验收.md)
+- [PTC 设计与使用](docs/native-ptc.md) · [内置 PTC AST 引擎](docs/ptc-engine.md) · [手动验证](docs/手动验收.md)
 - [贡献指南](docs/贡献指南.md) · [路线图](docs/路线图.md) · [变更日志](docs/CHANGELOG.md) · [溯源记录](docs/PROVENANCE.md)
 
 ## 许可证

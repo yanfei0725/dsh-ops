@@ -24,11 +24,19 @@ export const FILE_CAPABILITIES = Object.freeze(fileOrder.map(rawName => Object.f
   supportsContinuation: continuationReaders.has(rawName), observesRead: observedReaders.has(rawName),
   parameters: fileParameters[rawName], description: fileDescriptions[rawName], output: fileOutput(rawName),
 } satisfies SchemaCapability)))
+/** Tools answered in-process by the built-in AST engine (`src/ptc/engine`), not by the native worker. */
+const ptcEngineTools = new Set<PtcToolName>(['ptc_locate', 'ptc_find', 'ptc_refactor', 'ptc_inproc', 'ptc_audit'])
+/** Search and locate stay published; the writing and audit surfaces arrive through discovery. */
+const ptcEngineResident = new Set<PtcToolName>(['ptc_locate', 'ptc_inproc'])
+/** Only the refactor pipeline writes; locate/find/audit are observation. */
+const ptcEngineMutations = new Set<PtcToolName>(['ptc_refactor'])
 export const PTC_CAPABILITIES = Object.freeze((Object.keys(ptcParameters) as PtcToolName[]).map(rawName => Object.freeze({
   rawName, component: 'ptc' as const, presentations: rawName === 'result' ? allPresentations : Object.freeze(['ptc'] as const),
   ...(rawName === 'result' ? { nativeProjection: { component: 'file' as const, availability: 'discoverable' as const, parameters: NATIVE_RESULT_PARAMETERS, description: NATIVE_RESULT_DESCRIPTION } } : {}),
-  availability: 'resident' as const, mutates: true, concurrencySafe: false,
-  ptcAvailability: rawName === 'result' ? 'resident' as const : 'discoverable' as const,
+  availability: ptcEngineTools.has(rawName) && !ptcEngineResident.has(rawName) ? 'discoverable' as const : 'resident' as const,
+  mutates: ptcEngineTools.has(rawName) ? ptcEngineMutations.has(rawName) : true,
+  concurrencySafe: ptcEngineTools.has(rawName) && !ptcEngineMutations.has(rawName),
+  ptcAvailability: rawName === 'result' || ptcEngineResident.has(rawName) ? 'resident' as const : 'discoverable' as const,
   supportsContinuation: rawName === 'result',
   parameters: ptcParameters[rawName], description: ptcDescriptions[rawName], output: ptcOutput,
 } satisfies SchemaCapability)))

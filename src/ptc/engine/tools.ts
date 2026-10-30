@@ -1,11 +1,11 @@
 import { readFile, rm } from 'node:fs/promises';
 import * as path from 'node:path';
-import { PtcOutcomeError, defaultConfig } from './proc';
-import { runRefactorPipeline } from './pipeline';
-import type { RefactorRequest } from './pipeline';
-import { difftasticAudit, everythingFind, saneLocate } from './stages';
-import { inprocLocate, inprocRefactor } from './inproc';
-import type { InprocRequest, LocateRequest, LocateStrategy } from './inproc';
+import { PtcOutcomeError, defaultConfig } from './proc.js';
+import { runRefactorPipeline } from './pipeline.js';
+import type { RefactorRequest } from './pipeline.js';
+import { difftasticAudit, everythingFind, saneLocate } from './stages.js';
+import { inprocLocate, inprocRefactor } from './inproc.js';
+import type { InprocRequest, LocateRequest, LocateStrategy } from './inproc.js';
 
 export interface PtcToolDef {
     name: string;
@@ -382,6 +382,6 @@ export const opsPtcDiscoveryEntry = {
     load: () => opsPtcAddition,
 };
 export { OUT_SCHEMA };
-export { createHostTools, registerHostTools, toHostOutcome, HOST_OUTCOME_SCHEMA } from './adapter';
-export type { HostBridge, HostExec, HostPolicy, HostOutcome, HostToolDefinition } from './adapter';
+export { createHostTools, registerHostTools, toHostOutcome, HOST_OUTCOME_SCHEMA } from './adapter.js';
+export type { HostBridge, HostExec, HostPolicy, HostOutcome, HostToolDefinition } from './adapter.js';
 export default opsPtcAddition;

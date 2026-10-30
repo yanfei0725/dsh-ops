@@ -2,8 +2,8 @@ import { copyFile, mkdir, mkdtemp, readFile, rm, stat, writeFile } from 'node:fs
 import { createHash } from 'node:crypto';
 import { tmpdir } from 'node:os';
 import * as path from 'node:path';
-import { reparseEscape } from './reparse';
-import { walkBounded } from './inproc';
+import { reparseEscape } from './reparse.js';
+import { walkBounded } from './inproc.js';
 import {
     PtcOutcomeError,
     dbg,
@@ -14,8 +14,8 @@ import {
     run,
     stripBom,
     toLines,
-} from './proc';
-import type { ProcResult, PtcConfig, Stage } from './proc';
+} from './proc.js';
+import type { ProcResult, PtcConfig, Stage } from './proc.js';
 
 const sha256 = (b: Buffer): string => createHash('sha256').update(b).digest('hex');
 const RE_NL = /\r?\n/;

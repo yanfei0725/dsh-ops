@@ -3,6 +3,7 @@ import type { ChildProcess } from 'node:child_process';
 import { existsSync } from 'node:fs';
 import { access, open } from 'node:fs/promises';
 import * as path from 'node:path';
+import { PACKAGE_ROOT } from './anchors.js';
 
 export type Stage = 'everything' | 'sane' | 'astgrep' | 'agentbox' | 'difftastic' | 'inproc' | 'pipeline';
 export type PtcErrorCode = 'E_BIN_MISSING' | 'E_TIMEOUT' | 'E_INTERNAL' | 'E_OUTPUT_LIMIT' | 'E_EVERYTHING_FAILED' | 'E_EVERYTHING_IPC' | 'E_EVERYTHING_NOT_FOUND' | 'E_SANE_UNSUPPORTED_LANG' | 'E_SANE_SYMBOL_NOT_FOUND' | 'E_SANE_AMBIGUOUS' | 'E_ASTGREP_FAILED' | 'E_ASTGREP_NO_MATCH' | 'E_ASTGREP_OVERLAP' | 'E_ASTGREP_IDENTITY' | 'E_AGENTBOX_REJECTED' | 'E_AGENTBOX_CRASH' | 'E_DIFF_FAILED' | 'E_DIFF_EMPTY' | 'E_DIFF_REGRESSION' | 'E_BAD_ARGS';
@@ -56,7 +57,7 @@ export const esCandidates = (explicit?: string, cwd?: string): string[] => {
         list.push(explicit);
     if (cwd)
         list.push(path.resolve(cwd, 'vendor', 'es.exe'), path.resolve(cwd, 'es.exe'));
-    list.push(path.join(__dirname, '..', '..', 'vendor', 'es.exe'), 'C:/Program Files/Everything/es.exe', 'C:/Program Files (x86)/Everything/es.exe', 'es.exe', 'es');
+    list.push(path.join(PACKAGE_ROOT, 'vendor', 'es.exe'), 'C:/Program Files/Everything/es.exe', 'C:/Program Files (x86)/Everything/es.exe', 'es.exe', 'es');
     return [...new Set(list)];
 };
 
@@ -91,7 +92,7 @@ export const defaultConfig = (over: Partial<PtcConfig> = {}): PtcConfig => ({
     esPath: pickExistingEs(process.env.PTC_ES, over.cwd ?? process.cwd()) ?? '',
     sgPath: process.env.PTC_SG ?? 'ast-grep',
     difftPath: process.env.PTC_DIFFT ?? 'difft',
-    agentBoxWorker: process.env.PTC_AGENTBOX ?? path.join(__dirname, 'agentbox.worker.cjs'),
+    agentBoxWorker: process.env.PTC_AGENTBOX ?? path.join(PACKAGE_ROOT, 'bin', 'ptc-agentbox.worker.cjs'),
     timeoutMs: Number(process.env.PTC_TIMEOUT_MS ?? 20_000),
     maxOutputBytes: Number(process.env.PTC_MAX_OUTPUT ?? 8 << 20),
     maxChangeRatio: Number(process.env.PTC_MAX_CHANGE_RATIO ?? 0.2),

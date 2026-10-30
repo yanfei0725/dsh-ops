@@ -4,7 +4,7 @@
  * 只做传输与协议校验，工具实现全在 `./tools`；每一帧独立 dispatch，靠 `inflight`
  * 限并发。输出侧有一道硬闸：积压超过 8 MB 就直接退出，避免宿主不读 stdout 时把进程撑死。
  */
-import { opsPtcAddition, type PtcToolDef } from './tools';
+import { opsPtcAddition, type PtcToolDef } from './tools.js';
 
 const SERVER_INFO = { name: 'ops-ptc', version: opsPtcAddition.version };
 const PROTOCOL_VERSION = '2024-11-05';

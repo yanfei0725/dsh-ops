@@ -108,9 +108,13 @@
           "description": "最多命中文件数，默认 5"
         },
         "body": {
-          "type": [
-            "boolean",
-            "number"
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "number"
+            }
           ],
           "description": "附命中正文：true/缺省 = 总字节 ≤8KiB 才附，false = 只给行号，数字 = 自定义额度。"
         }
